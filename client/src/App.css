@@ -2,6 +2,8 @@ body {
     background-color: #182222;
     font-family: Calibri, serif;
     font-size: 25px;
+    margin: 0;
+    padding: 0;
 }
 
 .App {
@@ -11,16 +13,16 @@ body {
     background-color: white;
     padding: 20px;
     border-radius: 15px;
+    box-shadow: 0 10px 10px rgba(255, 255, 255, 0.5);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
-    .rocket {
+.rocket {
     font-size: 35px;
     width: 70px;
     height: 70px;
@@ -35,15 +37,11 @@ body {
 h1 {
     font-size: 70px;
     font-weight: 900;
-    margin-bottom: 25px;
-    margin-top: 20px;
+    margin: 20px 0 25px 0;
 }
 
 .new-task {
     text-align: left;
-}
-
-span {
     font-size: 25px;
     color: #696969;
     font-weight: bolder;
@@ -53,13 +51,20 @@ input[type=text] {
     width: 100%;
     font-size: 20px;
     border: none;
-    border-bottom: 1px grey solid;
+    border-bottom: 1px solid;
+    border-bottom-color: rgba(105, 105, 105, 0.2);
     color: #696969;
     margin: 10px 0;
 }
 
 input[type=text]:focus {
     outline: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 li {
@@ -71,38 +76,20 @@ li {
     width: 100%;
 }
 
+li:hover {
+    background-color: #f0f0f0;
+}
+
 .row {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-ul {
-    width: 100%;
-    padding-left: 0;
-}
-
-.delete-button {
-    display: flex;
-    text-align: right;
-}
-
-.description {
-    width: 100%;
-    text-align: left;
-    color: darkslategrey;
-}
-
-.checkbox {
-    height: 25px;
-    width: 25px;
-    margin: 0;
-}
-
 input[type=checkbox] {
     appearance: none;
-    background-color: rgba(211,211,211, 0.2);
-    border: 1.5px solid #D3D3D3	; /* Border for custom checkbox */
+    background-color: rgba(211, 211, 211, 0.2);
+    border: 1.5px solid #D3D3D3; /* Border for custom checkbox */
     border-radius: 4px; /* Rounded corners */
     outline: none;
     cursor: pointer;
@@ -123,6 +110,20 @@ input[type=checkbox]:checked::after {
     display: inline-block;
 }
 
+.checkbox {
+    height: 25px;
+    width: 25px;
+    margin: 0;
+}
 
+.description {
+    width: 100%;
+    text-align: left;
+    color: darkslategrey;
+}
 
-
+.delete-button {
+    display: flex;
+    text-align: right;
+    cursor: pointer;
+}
