@@ -4,6 +4,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        order_num: {
+            type: DataTypes.NUMERIC,
+            allowNull: false,
+            defaultValue: 0,
+        },
     })
     return Todos
 }

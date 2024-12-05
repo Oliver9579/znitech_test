@@ -32,6 +32,8 @@ body {
     text-align: right;
     background-color: #F0F8FF;
     border-radius: 5px;
+    cursor: pointer;
+
 }
 
 h1 {

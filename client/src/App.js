@@ -9,12 +9,39 @@ const App = () => {
 
     const [listOfTodos, setListOfTodos] = useState([]);
     const [dragging, setDragging] = useState(0);
+    const [newTodo, setTodo] = useState("");
 
     useEffect(() => {
         axios.get("http://localhost:3001/todos").then((response) => {
             setListOfTodos(response.data);
         })
     }, []);
+
+    const createNewTodo = async (description) => {
+        try {
+            const response = await axios.post("http://localhost:3001/todos", {
+                description: description,
+            });
+
+            setListOfTodos((prevTodos) => [...prevTodos, response.data]);
+            setTodo("");
+        } catch (err) {
+            console.error("Failed to create a new todo", err);
+        }
+    }
+
+    const handleNewTaskKeyPress = (e) => {
+        if (e.key === "Enter" && newTodo.trim() !== "") {
+            createNewTodo(newTodo.trim());
+        }
+    };
+
+    const handleRocketClick = () => {
+        if (newTodo.trim() !== "") {
+            createNewTodo(newTodo.trim());
+        }
+    };
+
 
     const handleDragStart = (e, index) => {
         setDragging(index);
@@ -47,11 +74,15 @@ const App = () => {
                         <h1>Tasks</h1>
                     </div>
 
-                    <div className="rocket">🚀</div>
+                    <div className="rocket" onClick={handleRocketClick}>🚀</div>
                 </div>
                 <div className="new-task">
                     <span>New Task:</span><br/>
-                    <input type="text"/>
+                    <input type="text"
+                           value={newTodo}
+                           onChange={(e) => setTodo(e.target.value)}
+                           onKeyDown={handleNewTaskKeyPress}
+                    />
                 </div>
                 <div className="items container">
                     <ul>
