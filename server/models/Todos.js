@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: 0,
         },
+        isCompleted: {
+            type: DataTypes.NUMERIC,
+            defaultValue: 0,
+        },
     })
     return Todos
 }

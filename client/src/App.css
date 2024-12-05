@@ -124,6 +124,12 @@ input[type=checkbox]:checked::after {
     color: darkslategrey;
 }
 
+.completed {
+    text-decoration: line-through;
+    color: black;
+}
+
+
 .delete-button {
     display: flex;
     text-align: right;

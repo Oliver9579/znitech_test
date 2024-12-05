@@ -73,6 +73,25 @@ const App = () => {
         }
     };
 
+    const handleTodoIsCompleted = (id, isCompleted) => {
+        let updatedIsCompleted;
+        if (isCompleted) {
+            updatedIsCompleted = 0;
+        }else {
+            updatedIsCompleted = 1;
+        }
+        axios.put(`http://localhost:3001/todos/${id}${updatedIsCompleted}`).then((response) => {
+            if (response.status === 200) {
+                setListOfTodos((prev) => prev.map((todo) => todo.id === id ? {
+                    ...todo,
+                    isCompleted: updatedIsCompleted
+                } : todo));
+            }
+        }).catch((error) => {
+            console.error("There was an error updating the todo item!", error);
+        });
+    };
+
     return (
         <div className="App">
             <div>
@@ -101,9 +120,12 @@ const App = () => {
                             >
                                 <div className="row">
                                     <div className="checkbox">
-                                        <input type="checkbox" className="checkbox"/>
+                                        <input type="checkbox" className="checkbox"
+                                               onChange={() => handleTodoIsCompleted(item.id, item.isCompleted)}
+                                        checked={!!item.isCompleted}/>
                                     </div>
-                                    <div className="description"> {item.description}</div>
+                                    <div
+                                        className={`description ${item.isCompleted ? `completed` : ``}`}> {item.description}</div>
                                     <div className="delete-button" onClick={() => handleDeleteTodo(item.id)}>
                                         <FontAwesomeIcon icon={faTrashCan}/>
                                     </div>

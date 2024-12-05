@@ -32,21 +32,15 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
-    const {listOfTodos} = req.body;
-    if (!Array.isArray(listOfTodos)) {
-        return res.status(400).json({error: "listOfTodos must be an array."});
-    }
+router.put('/:id:updatedIsCompleted', async (req, res) => {
+    const {id, updatedIsCompleted} = req.params;
 
     try {
-        const updatePromises = listOfTodos.map((todo, index) =>
-            Todos.update({order_num: index}, {where: {id: todo.id}})
-        );
-        await Promise.all(updatePromises);
-        res.status(200).json({message: "Todos order updated successfully."});
+        await Todos.update({isCompleted: updatedIsCompleted}, {where: {id}});
+        res.status(200).json({message: "Todo updated successfully."});
     } catch (err) {
         console.error(err);
-        res.status(500).json({error: "Failed to update todos order."});
+        res.status(500).json({error: "Failed to update todo."});
     }
 });
 
