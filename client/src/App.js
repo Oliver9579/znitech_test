@@ -59,12 +59,19 @@ const App = () => {
         }
     };
 
-    const handleDrop = (e) => {
+    const handleDrop = async (e) => {
         e.preventDefault();
         setDragging(null);
-
     };
 
+    const handleDeleteTodo = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3001/todos/${id}`);
+            setListOfTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+        } catch (err) {
+            console.error("Failed to delete todo", err);
+        }
+    };
 
     return (
         <div className="App">
@@ -97,7 +104,9 @@ const App = () => {
                                         <input type="checkbox" className="checkbox"/>
                                     </div>
                                     <div className="description"> {item.description}</div>
-                                    <div className="delete-button"><FontAwesomeIcon icon={faTrashCan}/></div>
+                                    <div className="delete-button" onClick={() => handleDeleteTodo(item.id)}>
+                                        <FontAwesomeIcon icon={faTrashCan}/>
+                                    </div>
                                 </div>
                             </li>
                         ))}
