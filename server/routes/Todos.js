@@ -32,11 +32,10 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id:updatedIsCompleted', async (req, res) => {
-    const {id, updatedIsCompleted} = req.params;
-
+router.put('/', async (req, res) => {
+    const {id, isCompleted} = req.body;
     try {
-        await Todos.update({isCompleted: updatedIsCompleted}, {where: {id}});
+        await Todos.update({isCompleted: isCompleted}, {where: {id}});
         res.status(200).json({message: "Todo updated successfully."});
     } catch (err) {
         console.error(err);
@@ -65,6 +64,26 @@ router.delete('/:id', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({error: "Failed to delete todo."});
+    }
+});
+
+router.put('/reorder', async (req, res) => {
+    const {reorderedTodos} = req.body;
+
+    if (!Array.isArray(reorderedTodos)) {
+        return res.status(400).json({error: "Invalid input format."});
+    }
+
+    try {
+        for (const todo of reorderedTodos) {
+
+            await Todos.update({order_num: todo.order_num}, {where: {id: todo.id}});
+        }
+
+        res.status(200).json({message: "Todos reordered successfully."});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({error: "Failed to reorder todos."});
     }
 });
 

@@ -62,6 +62,26 @@ const App = () => {
     const handleDrop = async (e) => {
         e.preventDefault();
         setDragging(null);
+
+        try {
+            const reorderedTodos = listOfTodos.map((todo, index) => ({
+                id: todo.id,
+                order_num: index + 1,
+                isCompleted: todo.isCompleted
+            }));
+
+            await axios.put("http://localhost:3001/todos/reorder", {
+                reorderedTodos,
+            });
+
+            setListOfTodos((prevTodos) =>
+                reorderedTodos.map((orderItem) =>
+                    prevTodos.find((todo) => todo.id === orderItem.id)
+                )
+            );
+        } catch (err) {
+            console.error("Failed to reorder todos", err);
+        }
     };
 
     const handleDeleteTodo = async (id) => {
@@ -77,10 +97,10 @@ const App = () => {
         let updatedIsCompleted;
         if (isCompleted) {
             updatedIsCompleted = 0;
-        }else {
+        } else {
             updatedIsCompleted = 1;
         }
-        axios.put(`http://localhost:3001/todos/${id}${updatedIsCompleted}`).then((response) => {
+        axios.put(`http://localhost:3001/todos/`, {id: id, isCompleted: updatedIsCompleted}).then((response) => {
             if (response.status === 200) {
                 setListOfTodos((prev) => prev.map((todo) => todo.id === id ? {
                     ...todo,
@@ -122,7 +142,7 @@ const App = () => {
                                     <div className="checkbox">
                                         <input type="checkbox" className="checkbox"
                                                onChange={() => handleTodoIsCompleted(item.id, item.isCompleted)}
-                                        checked={!!item.isCompleted}/>
+                                               checked={!!item.isCompleted}/>
                                     </div>
                                     <div
                                         className={`description ${item.isCompleted ? `completed` : ``}`}> {item.description}</div>
